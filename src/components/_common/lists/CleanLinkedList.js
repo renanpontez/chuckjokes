@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
   },
   itemText: {
     color: '#3c3c3c',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    paddingLeft: theme.spacing(1),
   },
   loadingIcon: {
     marginLeft: theme.spacing(1)/2
@@ -37,12 +38,12 @@ const CleanLinkedList = (props) => {
               props.onItemClick(item);
             }}>
             <Grid container alignItems="center">
-              <Grid item xs={2}>
+              <Grid item xs={1}>
                 <ListItemIcon>
-                  <FolderOpen color="primary" />
+                  <FolderOpen fontSize="small" color="primary" />
                 </ListItemIcon>
               </Grid>
-              <Grid item xs={9}>
+              <Grid item xs={10}>
                 <ListItemText
                   className={classes.itemText}
                   primary={item} />

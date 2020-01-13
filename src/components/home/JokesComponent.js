@@ -1,25 +1,21 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../_common/contexts/AppContext';
-import SimpleLoading from '../_common/loadings/SimpleLoading';
-import { Paper, Slide, Backdrop, Fade, Box, Button } from '@material-ui/core';
+import { Paper, Slide, Box, Button, Typography, Grid, IconButton, Chip } from '@material-ui/core';
+import {Autorenew, ArrowBack} from '@material-ui/icons'
+import Rating from '@material-ui/lab/Rating';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: `100%`,
-    height: 'calc(100vh - 50px)',
-    position: 'absolute',
-    top: 50,
-  },
-  backdrop: {
-    zIndex: 1,
-    top: 0,
-    left: 0,
     width: '100%',
     height: '100vh',
-    opacity: 0,
-    backgroundColor: 'rgba(0,0,0,.4)',
-    position: 'fixed',
+    position: 'absolute',
+    top: 0
+  },
+  backBtn: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
   },
   paper: {
     position: 'absolute',
@@ -27,41 +23,151 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     width: '100%',
     padding: theme.spacing(3),
-  }
+
+    '& .authorSection': {
+      marginTop: theme.spacing(5),
+      borderBottom: '1px solid #e8e8e8',
+      paddingBottom: theme.spacing(2),
+      marginBottom: theme.spacing(2),
+      
+      '& .authorName': {
+        textTransform: 'uppercase',
+        fontWeight: 700,
+      },
+      '& .lastUpdate': {
+        opacity: .8,
+        fontSize: 13
+      },
+      '& .avatarImg': {
+        width: '100%',
+        paddingLeft: theme.spacing(2),
+        boxSizing: 'border-box',
+
+      },
+    },
+
+    '& .jokeSection': {
+      '& .categoryChip': {
+        marginTop: theme.spacing(1)
+      }
+    },
+
+    '& .reviewSection': {
+      borderTop: '1px solid #e8e8e8',
+      paddingTop: theme.spacing(2),
+      marginTop: theme.spacing(3),
+      textAlign: 'center',
+
+      '& .reviewLabel': {
+        fontSize: 13,
+        opacity: .8
+      }
+    },
+
+    '& .randomJokeBtn': {
+      position: 'absolute',
+      bottom: 20,
+      left: 10,
+      margin: '0 auto',
+      width: 'calc(100% - 20px)'
+    }
+  },
+  
+  '@keyframes rotating': {
+    from: { 'transform': 'rotate(0deg)' },
+    to: { 'transform': 'rotate(360deg)' }
+  },
+
+  loadingJoke: {
+    animationName: '$rotating',
+    animationDuration: '2s',
+    animationTimingFunction: 'linear',
+    animationIterationCount:'infinite',
+  },
+
 }));
 
 const JokesComponent = () => {
   const classes = useStyles();
   const [visible, setVisible] = React.useState(true);
+  const [starsValue, setStarsValue] = React.useState(0);
+  const [loading, setLoading] = React.useState({status: false, lastJokeId: null});
 
   return (
     <AppContext.Consumer>
       {context => {
+        if(loading.status && context.joke.id != loading.lastJokeId) {
+          setLoading({ status: false });
+        }
         return (
           <>
-            <Slide direction="up" in={visible}>
+            <Slide direction="left" in={visible}>
               <div className={classes.root}>
-                
-
-                <Box className={classes.backdrop} open={visible}>
-                </Box>
                 <Paper elevation={4} className={classes.paper}>
-                <a href="#"
+                  <IconButton 
+                    className={classes.backBtn}
                     onClick={() => {
-                      setVisible(false);
-                      setTimeout(() => context.getRandomJoke(-1), 500);
-                    }}>
-                    CLEAR
-                </a>
+                        setVisible(false);
+                        context.getRandomJoke(-1);
+                      }}>
+                    <ArrowBack />
+                  </IconButton>
 
-                    {context.joke.value}
-                  <Button 
-                   onClick={() => context.getRandomJoke(context.joke.categories[0])}
-                   color="primary"
-                   variant="contained"
-                   fullWidth >
-                     RANDOM JOKE
-                    </Button>
+                  <Box className="authorSection">
+                    <Grid container>
+                      <Grid item xs={10}>
+                        <Typography className="authorName">
+                          Chuck Norris
+                        </Typography>
+                        <Typography className="lastUpdate">
+                          {context.joke.updated_at}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <img src={context.joke.icon_url} className="avatarImg" />
+                      </Grid>
+                    </Grid>
+                  </Box>
+
+                  <Box className="jokeSection">
+                    <Typography className="jokeValue">
+                      {context.joke.value}
+                    </Typography>
+
+                    {context.joke.categories.map(category => (
+                      <Chip 
+                        key={category}
+                        color="secondary" 
+                        size="small" 
+                        label={category}
+                        className="categoryChip" />
+                    ))}
+                  </Box>
+
+                  <Box className="reviewSection">
+                     <Typography className="reviewLabel">
+                      Give a review for this joke 
+                    </Typography>
+
+                    <Rating
+                      name="simple-controlled"
+                      value={starsValue}
+                      onChange={(event, newValue) => {
+                        setStarsValue(newValue);
+                      }} />
+                  </Box>
+
+                  <Button
+                    className="randomJokeBtn"
+                    onClick={() => {
+                      setLoading({status: true, lastJokeId: context.joke.id });
+                      context.getRandomJoke(context.joke.categories[0]);
+                    }}
+                    color="primary"
+                    variant="contained"
+                    fullWidth>
+                     RANDOM JOKE <Autorenew className={loading.status ? classes.loadingJoke : null} />
+                  </Button>
                 </Paper>
               </div>
             </Slide>

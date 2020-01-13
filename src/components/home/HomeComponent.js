@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Box } from '@material-ui/core';
+import { Container, Grid, Box, Slide } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -28,19 +28,21 @@ const HomeComponent = (props) => {
   return (
     <AppContext.Consumer>
       {context => (
-        <Box>
-          <HeaderHome />
-          <Grid container>
-            <Typography className={classes.subtitle}>
-              Categorias
-            </Typography>
+        <Slide direction="right" in={!context.joke}>
+          <Box>
+            <HeaderHome />
+            <Grid container>
+              <Typography className={classes.subtitle}>
+                Jokes categories
+              </Typography>
 
-            <CleanLinkedList 
-              items={context.categories} 
-              onItemClick={context.getRandomJoke}
-              joke={context.joke} />
-          </Grid>
-        </Box>
+              <CleanLinkedList 
+                items={context.categories} 
+                onItemClick={context.getRandomJoke}
+                joke={context.joke} />
+            </Grid>
+          </Box>
+        </Slide>
       )}
     </AppContext.Consumer>
   );

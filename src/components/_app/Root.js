@@ -9,10 +9,11 @@ import { indigo, pink } from '@material-ui/core/colors';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#250049'
+      main: '#2460FF'
     },
     secondary: {
-      main: '#00CFF6'
+      main: '#FA824C',
+      contrastText: '#FFF'
     },
   },
   status: {
