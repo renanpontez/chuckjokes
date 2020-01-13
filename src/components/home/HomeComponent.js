@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import CleanLinkedList from '../_common/lists/CleanLinkedList';
 import HeaderHome from './HeaderHome';
+import AppContext from '../_common/contexts/AppContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,25 +20,29 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     marginBottom: 0,
   }
-  
 }));
 
-const HomeComponent = () => {
+const HomeComponent = (props) => {
   const classes = useStyles();
 
   return (
-    <>
-      <Box>
-        <HeaderHome />
-        <Grid container>
-          <Typography className={classes.subtitle}>
-            Categorias
-          </Typography>
+    <AppContext.Consumer>
+      {context => (
+        <Box>
+          <HeaderHome />
+          <Grid container>
+            <Typography className={classes.subtitle}>
+              Categorias
+            </Typography>
 
-          <CleanLinkedList items={[1,2,3, 4]} />
-        </Grid>
-      </Box>
-    </>
+            <CleanLinkedList 
+              items={context.categories} 
+              onItemClick={context.getRandomJoke}
+              joke={context.joke} />
+          </Grid>
+        </Box>
+      )}
+    </AppContext.Consumer>
   );
 }
 

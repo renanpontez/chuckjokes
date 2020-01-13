@@ -14,12 +14,6 @@ const Routes = () => {
         layout={DashboardLayout} 
         component={HomePage}/>
 
-      <AppRoute 
-        exact 
-        path="/jokes/:categoryId" 
-        layout={DashboardLayout} 
-        component={JokesPage}/>
-
       {/* <Route component={NotFoundPage} /> */}
     </Switch>
   );

@@ -1,0 +1,1 @@
+export const UPDATE_JOKE = "UPDATE_JOKE";
