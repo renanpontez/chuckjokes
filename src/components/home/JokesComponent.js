@@ -141,7 +141,7 @@ const JokesComponent = () => {
                   className={classes.backBtn}
                   onClick={() => {
                       setVisible(false);
-                      context.getRandomJoke(-1);
+                      setTimeout(() => context.getRandomJoke(-1), (isMobile ? 0 : 500));
                     }}>
                   <ArrowBack />
                 </IconButton>

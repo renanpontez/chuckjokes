@@ -3,7 +3,6 @@ import { List, ListItem, ListItemText, ListItemIcon, Grid, Box } from '@material
 import { makeStyles } from '@material-ui/core/styles';
 import FolderOpen from '@material-ui/icons/FolderOpen';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-import { Link } from 'react-router-dom';
 import SimpleLoading from '../loadings/SimpleLoading';
 
 const useStyles = makeStyles(theme => ({

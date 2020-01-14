@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, makeStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   wrapper: {
     display: 'flex',
     width: '100%',
