@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import CleanLinkedList from '../_common/lists/CleanLinkedList';
 import HeaderHome from './HeaderHome';
 import AppContext from '../_common/contexts/AppContext';
+import { isMobile } from 'react-device-detect';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,18 +29,20 @@ const HomeComponent = (props) => {
   return (
     <AppContext.Consumer>
       {context => (
-        <Slide direction="right" in={!context.joke}>
+        <Slide direction="right" in={isMobile ? !context.joke : true}>
           <Box>
             <HeaderHome />
-            <Grid container>
+            <Grid container justify="center">
+              <Grid item xs={12} lg={4}>
               <Typography className={classes.subtitle}>
                 Jokes categories
               </Typography>
 
-              <CleanLinkedList 
-                items={context.categories} 
-                onItemClick={context.getRandomJoke}
-                joke={context.joke} />
+                <CleanLinkedList 
+                  items={context.categories} 
+                  onItemClick={context.getRandomJoke}
+                  joke={context.joke} />
+              </Grid>
             </Grid>
           </Box>
         </Slide>

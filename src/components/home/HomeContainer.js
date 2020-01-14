@@ -41,7 +41,7 @@ class HomeContainer extends React.Component {
 
 
   render() {
-    if(!this.state.categories) return <SimpleLoading />;
+    if(!this.state.categories) return <SimpleLoading padding={5}/>;
     
     return (
       <>

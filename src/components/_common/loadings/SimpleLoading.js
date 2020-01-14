@@ -14,7 +14,7 @@ const SimpleLoading = props => {
   const classes = useStyles();
   return (
     <>
-      <Box className={classes.wrapper}>
+      <Box className={classes.wrapper} p={props.padding || 0}>
         <CircularProgress size={props.size || 40} />
       </Box>
     </>
